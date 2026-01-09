@@ -8,17 +8,16 @@ dotenv.config();
 const VALID_POS = partOfSpeechData.parts_of_speech.map((pos) => pos.key);
 const VALID_THEMES = themeVocabularies;
 
-const apiKey = process.env.GEMINI_API_KEY;
-if (!apiKey) {
-  console.error("CRITICAL: GEMINI_API_KEY is missing in environment variables.");
-}
-
-const ai = new GoogleGenAI({
-  apiKey: apiKey || "dummy_key"
-});
-
 export const aiService = {
-  async generateContent(input: string, systemInstruction: string) {
+  async generateContent(input: string, systemInstruction: string, apiKey?: string) {
+    const finalApiKey = apiKey || process.env.GEMINI_API_KEY;
+
+    if (!finalApiKey) {
+      throw new Error("Gemini API key is required");
+    }
+
+    const ai = new GoogleGenAI({ apiKey: finalApiKey });
+
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
       contents: input,
@@ -63,7 +62,7 @@ If a field is already present and accurate, you may keep it, but ensure it meets
   "bangla_meaning": "Accurate meaning in Bengali",
   "romanization": "Standard Revised Romanization like this :: sa-ram",
   "part_of_speech": "One of: ${posStr}",
-  "explanation": "Brief explanation of usage in Bengali (min 50 chars)",
+  "explanation": "Brief explanation of usage in Bengali (min 50 chars).Suitable for Bangladeshi learners, where, when, why, who, what, etc in Bengali.",
   "themes": ["at least one or more from: ${themesStr}"],
   "chapters": [],
   "examples": [

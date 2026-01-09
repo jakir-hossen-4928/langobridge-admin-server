@@ -24,7 +24,8 @@ app.post("/gemini/update-missing-vocabulary-fields", async (req, res) => {
         if (!input) return res.status(400).json({ error: "Input text is required" });
 
         const instruction = aiService.getSystemInstruction('new');
-        const text = await aiService.generateContent(input, instruction);
+        const apiKey = req.headers['x-gemini-api-key'] as string | undefined;
+        const text = await aiService.generateContent(input, instruction, apiKey);
 
         res.json({ data: text });
     } catch (error) {
@@ -39,7 +40,8 @@ app.post("/gemini/enhance", async (req, res) => {
         if (!vocabulary) return res.status(400).json({ error: "Vocabulary object is required" });
 
         const instruction = aiService.getSystemInstruction('enhance', fields);
-        const data = await aiService.generateContent(JSON.stringify(vocabulary), instruction);
+        const apiKey = req.headers['x-gemini-api-key'] as string | undefined;
+        const data = await aiService.generateContent(JSON.stringify(vocabulary), instruction, apiKey);
 
         res.json({ data });
     } catch (error) {
