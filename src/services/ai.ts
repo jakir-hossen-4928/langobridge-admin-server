@@ -62,8 +62,8 @@ If a field is already present and accurate, you may keep it, but ensure it meets
   "bangla_meaning": "Accurate meaning in Bengali",
   "romanization": "Standard Revised Romanization like this :: sa-ram",
   "part_of_speech": "One of: ${posStr}",
-  "explanation": "Brief explanation of usage in Bengali (min 50 chars).Suitable for Bangladeshi learners, where, when, why, who, what, etc in Bengali.",
-  "themes": ["at least one or more from: ${themesStr}"],
+  "explanation": "Detailed usage explanation in Bengali (min 50 chars). Include when to use it, where it's common, and stylistic nuances. Answer 'who, what, where, when, why, how' if applicable. Suitable for Bangladeshi learners.",
+  "themes": ["at least one or more from ONLY this list: ${themesStr}"],
   "chapters": [],
   "examples": [
     {
@@ -80,13 +80,14 @@ If a field is already present and accurate, you may keep it, but ensure it meets
 }
 
 Rules:
+- Provide exactly 2 examples per word. Examples should be practical for ESP Topic learners.
 - Always include "verb_forms" ONLY if part_of_speech is "verb"
 - If not a verb, OMIT the "verb_forms" key
 - Response must be ONLY a valid JSON array
 - Do NOT include markdown, comments, or explanations
 - Set "chapters" to an empty array [] always; do NOT generate values for it.
- -Do NOT use markdown code blocks.
--Do NOT add any text before or after the JSON.
+- Do NOT use markdown code blocks.
+- Do NOT add any text before or after the JSON.
 `;
     return instruction;
   }
